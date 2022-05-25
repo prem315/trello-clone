@@ -150,6 +150,10 @@ class TrelloBoard extends React.Component {
         
     }
 
+    editLableChange = (val, card) => {
+        console.log(val, card)
+    }
+
     render() {
         const { list, taskInput } = this.state
         return (
@@ -167,6 +171,7 @@ class TrelloBoard extends React.Component {
                                     delteTaskToCard={this.delteTaskToCard}
                                     editTaskToCard={this.editTaskToCard}
                                     dragAndDropTask={this.dragAndDropTask}
+                                    editLableChange={this.editLableChange}
                                     key={data.id}
                                 />
                             )
