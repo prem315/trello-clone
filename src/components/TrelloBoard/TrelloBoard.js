@@ -24,21 +24,16 @@ class TrelloBoard extends React.Component {
 
     }
 
-    addTaskToCard = () => {
+    addTaskToCard = (val, selectedCard) => {
         console.log("clicked")
         const { taskInput, currentCardId, list} = this.state;
-    //     const newList = [...list];
-    //     const findCard = newList.filter((card) => {
-    //         return card.id === currentCardId
-    //     })
-    //    // findCard
-    //     console.log(findCard)
+  
         this.setState({
             list: list.map((card) => {
-                if(card.id === currentCardId) {
+                if(card.id === selectedCard.id) {
                     return {
                         ...card,
-                        tasks: [...card.tasks, {id: card.tasks.length + 1, task:taskInput }]
+                        tasks: [...card.tasks, {id: card.tasks.length + 1, task:val }]
                     }
                 } else {
                     return card
@@ -48,24 +43,11 @@ class TrelloBoard extends React.Component {
             taskInput : ""
         })
 
-        // this.setState({
-        //     taskInput: ""
-        // })
-
-        // this.setState(previousState => ({
-        //     taskInput: [...previousState.myArray, 'new value']
-        // }));
-
-        // this.setState(prevState =>{
-        //     return{
-        //          ...prevState,
-        //          taskInput : ""
-        //     }
-        //  })
+       
     }
 
-    delteTaskToCard = () => {
-
+    delteTaskToCard = (task) => {
+        console.log("delete", task)
     }
 
     editTaskToCard = () => {
@@ -94,7 +76,8 @@ class TrelloBoard extends React.Component {
                                     addTaskToCard={this.addTaskToCard}
                                     handleTaskInputChange={this.handleTaskInputChange} 
                                     taskInput={taskInput}
-                                    
+                                    delteTaskToCard={this.delteTaskToCard}
+                                    key={data.id}
                                 />
                             )
                         })

@@ -10,7 +10,7 @@ export default function Card({task, editTaskToCard, delteTaskToCard}) {
            <div className="buttons">
                
                <IconButton icon={"pencil"} handleClick={editTaskToCard} />
-               <IconButton icon={"clear"} handleClick={delteTaskToCard} />
+               <IconButton icon={"clear"} handleClick={() => delteTaskToCard(task)} />
                
            </div>
         </div>
