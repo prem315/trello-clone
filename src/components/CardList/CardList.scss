@@ -1,0 +1,31 @@
+.cardList {
+    width: 270px;
+    padding: 10px;
+    height: 100%;
+    overflow: hidden;
+    min-height: 100px;
+    background-color: #e2e4e6;
+    box-shadow: 1px 1px 1px rgb(0 0 0 / 50%);
+    border-radius: 3px;
+    padding-bottom: 20px;
+    margin-right: 20px;
+    vertical-align: top;
+
+    .cardLable {
+        text-align: center;
+        font-weight: 700;
+        white-space: normal;
+        width: 100%;
+    }
+
+    .cardContainer {
+        padding: 5px;
+    }
+
+    .inputContainer {
+        padding: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+    }
+}

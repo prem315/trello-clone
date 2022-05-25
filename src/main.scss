@@ -1,0 +1,18 @@
+.header {
+    
+    background-color: #06b3ee;
+    height: 5vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .label {
+        color: #202124;
+        font-size: 15px;
+        font-weight: 800;
+    }
+
+    .button {
+        color: #202124;
+    }
+}
