@@ -94,8 +94,7 @@ class TrelloBoard extends React.Component {
                                     addTaskToCard={this.addTaskToCard}
                                     handleTaskInputChange={this.handleTaskInputChange} 
                                     taskInput={taskInput}
-                                    key={index}
-                                    cardId={index}
+                                    
                                 />
                             )
                         })

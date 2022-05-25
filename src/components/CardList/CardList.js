@@ -4,9 +4,9 @@ import Input from "../Input/input"
 import IconButton from "../IconButton/IconButton"
 import "./CardList.scss"
 
-export default function CardList({card, addTaskToCard, handleTaskInputChange, taskInput, cardId}) {
+export default function CardList({card, addTaskToCard, handleTaskInputChange, taskInput, cardId, key}) {
     return(
-        <div className="cardList" key={card.id}>
+        <div className="cardList">
             <div className="cardLable">{card.label}</div>
             <div className="cardContainer">
                 {
@@ -19,8 +19,8 @@ export default function CardList({card, addTaskToCard, handleTaskInputChange, ta
 
             </div>
             <div className="inputContainer">
-                <Input value={taskInput} handleTaskInputChange={(val) => handleTaskInputChange(val, card)} key={cardId} />
-                <IconButton icon={"plus"} handleClick={addTaskToCard} key={cardId} />
+                <Input value={taskInput} handleTaskInputChange={(val) => handleTaskInputChange(val, card)}  />
+                <IconButton icon={"plus"} handleClick={addTaskToCard} />
             </div>
         </div>
     )

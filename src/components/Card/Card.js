@@ -5,7 +5,7 @@ import "./Card.scss"
 export default function Card({task, editTaskToCard, delteTaskToCard}) {
     console.log("card", task)
     return(
-        <div className="card" key={task.id}>
+        <div className="card" >
            <div>{task.task}</div>
            <div className="buttons">
                

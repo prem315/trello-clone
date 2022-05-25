@@ -11,7 +11,7 @@ const Input = React.forwardRef(({ref, ...props}) => {
     }
 
     return (
-        <input key={props.inputId} className="inp" value={props.value} onChange={handleChange} placeholder={"add task here"} />
+        <input className="inp" value={props.value} onChange={handleChange} placeholder={"add task here"} />
     )
 })
 
