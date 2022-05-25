@@ -18,23 +18,12 @@ export default function Card({task, editTaskToCard, delteTaskToCard, dragAndDrop
         editTaskToCard(val, task)
         setName(val)
     }
-
-    
-
-   
-
-
-   
-    
-
-      
     
     return(
        
             <div className="card" 
                 draggable={true}
                 onDragOver={(ev) => ev.preventDefault()}
-                
                 onDragStart={handleDrag}
                 onDrop={handleDrop}
                 id={index}

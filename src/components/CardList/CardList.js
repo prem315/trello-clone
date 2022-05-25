@@ -17,24 +17,26 @@ export default function CardList({
 }) {
     
     const [val, setVal] = useState("");
-    const [dragId, setDragId] = useState();
+    // const [dragId, setDragId] = useState();
     const [dragCard, setDragCard] = useState("");
+
     
 
     const handleDrag = (ev, card) => {
-        console.log(card)
+       
         // setDragCard(card)
-        setDragCard(card.id); // s
-        console.log(card)
-        setDragId(ev.currentTarget.id);
+        ev.dataTransfer.setData("dragCardId",card.id);
+        // setDragId(ev.currentTarget.id);
+        ev.dataTransfer.setData("dragId", ev.currentTarget.id)
         
     };
 
     const handleDrop = (ev, card, task) => {
-       
         const dropId = ev.currentTarget.id
-        console.log("drop", dragCard)
-        dragAndDropTask(dragId, dropId, card, task, dragCard)
+        const dragcardId=ev.dataTransfer.getData("dragCardId");
+        // console.log(dragId)
+        const dragId = ev.dataTransfer.getData("dragId");
+        dragAndDropTask(dragId, dropId, card, task, dragcardId)
     };
 
     const handleChange = (val) => {
@@ -48,7 +50,7 @@ export default function CardList({
         delteTaskToCard(card, task)
     }
     return (
-        <div className="cardList" key={cardId}>
+        <div className="cardList" key={cardId} >
             <div className="cardLable">{card.label}</div>
             <div className="cardContainer">
                 {card.tasks.map((task, index) => {
