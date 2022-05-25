@@ -25,7 +25,7 @@ class TrelloBoard extends React.Component {
     }
 
     addTaskToCard = (val, selectedCard) => {
-        console.log("clicked")
+      
         const { taskInput, currentCardId, list} = this.state;
   
         this.setState({
@@ -46,12 +46,27 @@ class TrelloBoard extends React.Component {
        
     }
 
-    delteTaskToCard = (task) => {
-        console.log("delete", task)
+    delteTaskToCard = (selectedCard, selectedTask) => {
+        // console.log("delete", card, task)
+        const { list } = this.state;
+        this.setState({
+            list: list.map((card) => {
+                if(card.id === selectedCard.id) {
+                    return {
+                        ...card,
+                        tasks: card.tasks.filter((task) => {
+                            return task.id !== selectedTask.id
+                        })
+                    } 
+                } else {
+                    return card
+                }
+            })
+        })
     }
 
     editTaskToCard = () => {
-
+        console.log("editing")
     }
 
     handleTaskInputChange = (val, card) => {
@@ -77,6 +92,7 @@ class TrelloBoard extends React.Component {
                                     handleTaskInputChange={this.handleTaskInputChange} 
                                     taskInput={taskInput}
                                     delteTaskToCard={this.delteTaskToCard}
+                                    editTaskToCard={this.editTaskToCard}
                                     key={data.id}
                                 />
                             )
