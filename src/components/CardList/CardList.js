@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Card from "../Card/Card";
 import Input from "../Input/input";
 import IconButton from "../IconButton/IconButton";
@@ -12,9 +12,31 @@ export default function CardList({
     cardId,
     key,
     delteTaskToCard,
-    editTaskToCard
+    editTaskToCard,
+    dragAndDropTask
 }) {
+    
     const [val, setVal] = useState("");
+    const [dragId, setDragId] = useState();
+    const [dragCard, setDragCard] = useState("");
+    
+
+    const handleDrag = (ev, card) => {
+        console.log(card)
+        // setDragCard(card)
+        setDragCard(card.id); // s
+        console.log(card)
+        setDragId(ev.currentTarget.id);
+        
+    };
+
+    const handleDrop = (ev, card, task) => {
+       
+        const dropId = ev.currentTarget.id
+        console.log("drop", dragCard)
+        dragAndDropTask(dragId, dropId, card, task, dragCard)
+    };
+
     const handleChange = (val) => {
         setVal(val);
     };
@@ -29,12 +51,16 @@ export default function CardList({
         <div className="cardList" key={cardId}>
             <div className="cardLable">{card.label}</div>
             <div className="cardContainer">
-                {card.tasks.map((task) => {
-                    return <Card 
+                {card.tasks.map((task, index) => {
+                    return <Card
+                        index={index} 
                         task={task} 
                         key={task.id} 
                         delteTaskToCard={() => delteTaskFromCard(card, task)} 
-                        editTaskToCard={editTaskToCard}
+                        editTaskToCard={(e) => editTaskToCard(e, card, task)}
+                        //dragAndDropTask={(dragItem, dragOverItem, task) => dragAndDropTask(dragItem, dragOverItem, card)}
+                        handleDrag={(e) => handleDrag(e, card)}
+                        handleDrop={(e) => handleDrop(e, card, task)}
                     />;
                 })}
             </div>
