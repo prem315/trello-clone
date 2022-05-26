@@ -69,9 +69,31 @@ class TrelloBoard extends React.Component {
         })
     }
 
-    editTaskToCard = (val, card, task) => {
-        console.log("editing", val)
+    editTaskToCard = (val, selectedCard, selectedTask) => {
+        // console.log("editing", val, card, task)
+        console.log(val)
         const { list } = this.state;
+        this.setState({
+            list: list.map((card) => {
+                if(card.id === selectedCard.id) {
+                    return {
+                        ...card,
+                        tasks: card.tasks.map((currentTask) => {
+                            if(currentTask.id === selectedTask.task) {
+                                return {
+                                    ...currentTask,
+                                    task: val
+                                }
+                            } else {
+                                return currentTask
+                            }
+                        })
+                    } 
+                } else {
+                    return card
+                }
+            })
+        })
         // throttle(() => {
         //     this.setState({
 
@@ -144,14 +166,23 @@ class TrelloBoard extends React.Component {
                     }
                 })
             })
-
         }
-        
-        
     }
 
-    editLableChange = (val, card) => {
-        console.log(val, card)
+    editLableChange = (val, selectedCard) => {
+        const { list } = this.state
+        this.setState({
+            list: list.map((card) => {
+                if(card.id === selectedCard.id) {
+                    return {
+                        ...card,
+                        label:val
+                    }
+                } else {
+                    return card
+                }
+            }),
+        })
     }
 
     render() {

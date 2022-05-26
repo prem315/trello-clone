@@ -20,20 +20,34 @@ export default function Card({task, editTaskToCard, delteTaskToCard, dragAndDrop
     }
     
     return(
-       
-            <div className="card" 
+            <>
+            <div 
+                className="card" 
                 draggable={true}
                 onDragOver={(ev) => ev.preventDefault()}
                 onDragStart={handleDrag}
                 onDrop={handleDrop}
                 id={index}
-                key={task.id} >
+                key={task.id} 
+                >
                 <div>{task.task}</div>
+                
                 <div className="buttons">
                     <IconButton icon={"pencil"} handleClick={editTaskToCard} />
                     <IconButton icon={"clear"} handleClick={() => delteTaskToCard(task)} />
                 </div>
             </div>
+            <EditableInput 
+                    text={task.task}
+                    placeholder="Write a task name"
+                    type="input"
+                >
+                    <Input 
+                        value={task.task}
+                        handleTaskInputChange={(e) => handleChange(e, task)}
+                    />
+                </EditableInput>
+            </>
             /* <EditableInput 
                 text={task.task}
                 placeholder="Write a task name"
@@ -44,6 +58,6 @@ export default function Card({task, editTaskToCard, delteTaskToCard, dragAndDrop
                     handleTaskInputChange={(e) => handleChange(e, task)}
                 />
             </EditableInput> */
-       
+            
     )
 }

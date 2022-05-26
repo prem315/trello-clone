@@ -62,7 +62,7 @@ export default function CardList({
                     {/* {card.label} */}
                     <Input 
                         value={card.label}
-                        handleTaskInputChange={() => handleTitleChange(val, card)}
+                        handleTaskInputChange={(val) => handleTitleChange(val, card)}
                     />
                 </EditableInput>
                 
@@ -78,6 +78,7 @@ export default function CardList({
                         //dragAndDropTask={(dragItem, dragOverItem, task) => dragAndDropTask(dragItem, dragOverItem, card)}
                         handleDrag={(e) => handleDrag(e, card)}
                         handleDrop={(e) => handleDrop(e, card, task)}
+                       
                     />;
                 })}
             </div>
