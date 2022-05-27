@@ -6,9 +6,6 @@ import Header from "./components/Header/Header"
 import TrelloBoard from './components/TrelloBoard/TrelloBoard';
 
 function App() {
-
-  const ref = React.useRef()
-  console.log(ref)
   return (
     <div className="App">
       <Header />

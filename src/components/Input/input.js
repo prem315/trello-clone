@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useRef, useEffect } from "react"
 import "./input.scss"
 
 // const Input = React.forwardRef(({ref, ...props}) => {
@@ -18,7 +18,7 @@ import "./input.scss"
 // export default React.memo(Input)
 
 const Input = React.forwardRef((props, ref) => {
-
+	console.log(ref)
     const handleKeyPress = (event) => {
         if(event.key === 'Enter'){
          
@@ -28,11 +28,17 @@ const Input = React.forwardRef((props, ref) => {
           }
          
         }
-    }
+	}
+	
+	// const currentref = useRef()
+
+    // useEffect(() => {
+    //     currentref.current.focus()
+    // }, [])
     
     return (
         <input 
-            
+            ref={ref}
             className="inp" 
             aria-label="cost-input" 
             data-testid="name"

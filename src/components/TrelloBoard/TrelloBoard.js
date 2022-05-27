@@ -21,12 +21,21 @@ class TrelloBoard extends React.Component {
             taskInput: "",
             currentCardId: null,
             inputVisible: false,
-            label: ""
+            label: "",
+            
         }
+
+        this.inputRef = React.createRef()
         
     }
 
+    componentDidMount() {
+        console.log(this.inputRef)
+        //this.inputRef.current.focus()
+    }
+
     addCardList = () => {
+        this.inputRef.current.focus()
         this.setState({
             inputVisible: true
             //list: [...this.state.list, {id: uuidv4(), label: "", tasks: []}]
@@ -195,7 +204,7 @@ class TrelloBoard extends React.Component {
 
     addListToCardList = () => {
         const {label, list} = this.state
-       
+        
         this.setState({
 
             list: [...list, {id: uuidv4(), label: label, tasks: []}],
@@ -207,6 +216,9 @@ class TrelloBoard extends React.Component {
     editTask = () => {
         console.log("clicked")
     }
+
+   
+
 
     render() {
         const { list, taskInput, inputVisible } = this.state
@@ -238,6 +250,7 @@ class TrelloBoard extends React.Component {
                             <Input 
                                 handleTaskInputChange={this.handleInputChange} 
                                 onKeyPress={this.addListToCardList}
+                                ref={this.inputRef}
                             />
                             <Button handleClick={this.addListToCardList}>Add</Button>
                         </div> 
