@@ -7,12 +7,19 @@ import "./Card.scss"
 export default function Card({task, editTaskToCard, delteTaskToCard, dragAndDropTask, index, handleDrag, handleDrop, editTask}) {
     const [name, setName] = useState("")
     const inputRef = useRef();
-    // const [focus, seFocus] = useRef(false)
+    const [focus, setFocus] = useState(false)
     
     const handleChange = (val) => {
         
         editTaskToCard(val, task)
         setName(val)
+        setFocus(true)
+    }
+
+    const clickEditTask = (task) => {
+
+        // editTask(task)
+        setFocus(true)
     }
 
     return(
@@ -35,7 +42,7 @@ export default function Card({task, editTaskToCard, delteTaskToCard, dragAndDrop
                
             >
                 <Input 
-                    
+                    isFocus={focus}
                     ref={inputRef}
                     value={task.task}
                     handleTaskInputChange={(e) => handleChange(e, task)}
@@ -44,7 +51,12 @@ export default function Card({task, editTaskToCard, delteTaskToCard, dragAndDrop
 
             </EditableInput>
             <div className="buttons">
-                <IconButton icon={"pencil"} handleClick={() => editTask(task)} disabled={false} />
+                <IconButton 
+                    icon={"pencil"} 
+                    // handleClick={() => editTask(task)} 
+                    handleClick={() => clickEditTask(task)}
+                    disabled={false} 
+                />
                 <IconButton icon={"clear"} handleClick={() => delteTaskToCard(task)} disabled={false} />
             </div> 
         </div>   

@@ -30,6 +30,7 @@ import plus from "../../assets/plus.png";
 
 const IconButton = (props) => {
     const handleClick = () => {
+        
         props.handleClick()
     }
 
