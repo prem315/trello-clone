@@ -77,7 +77,7 @@ class TrelloBoard extends React.Component {
 
     editTaskToCard = (val, selectedCard, selectedTask) => {
         // console.log("editing", val, card, task)
-        console.log(val)
+       
         const { list } = this.state;
         this.setState({
             list: list.map((card) => {
@@ -100,11 +100,6 @@ class TrelloBoard extends React.Component {
                 }
             })
         })
-        // throttle(() => {
-        //     this.setState({
-
-        //     })
-        // }, 2000)
     }
 
     handleTaskInputChange = (val, card) => {
@@ -192,7 +187,7 @@ class TrelloBoard extends React.Component {
     }
 
     handleInputChange = (val) => {
-        console.log(val)
+        
         this.setState({
             label: val
         })
@@ -200,12 +195,17 @@ class TrelloBoard extends React.Component {
 
     addListToCardList = () => {
         const {label, list} = this.state
-        console.log(label)
+       
         this.setState({
 
             list: [...list, {id: uuidv4(), label: label, tasks: []}],
             inputVisible: false
         })
+    }
+
+
+    editTask = () => {
+        console.log("clicked")
     }
 
     render() {
@@ -224,6 +224,7 @@ class TrelloBoard extends React.Component {
                                     taskInput={taskInput}
                                     delteTaskToCard={this.delteTaskToCard}
                                     editTaskToCard={this.editTaskToCard}
+                                    editTask={this.editTask}
                                     dragAndDropTask={this.dragAndDropTask}
                                     editLableChange={this.editLableChange}
                                     key={data.id}
@@ -233,8 +234,11 @@ class TrelloBoard extends React.Component {
                     }
                     {
                         inputVisible === true ? 
-                        <div>
-                            <Input handleTaskInputChange={this.handleInputChange} />
+                        <div className="addcardList">
+                            <Input 
+                                handleTaskInputChange={this.handleInputChange} 
+                                onKeyPress={this.addListToCardList}
+                            />
                             <Button handleClick={this.addListToCardList}>Add</Button>
                         </div> 
                         : 

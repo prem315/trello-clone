@@ -5,5 +5,11 @@
 
     .cardListContainer {
         display: flex;
+
+        .addcardList {
+            .inp:focus {
+                color: #ffffff;
+            }
+        }
     }
 }

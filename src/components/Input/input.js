@@ -18,7 +18,18 @@ import "./input.scss"
 // export default React.memo(Input)
 
 const Input = React.forwardRef((props, ref) => {
-    // console.log(ref)
+
+    const handleKeyPress = (event) => {
+        if(event.key === 'Enter'){
+         
+          props.handleTaskInputChange(event.target.value)
+          if(props.onKeyPress) {
+            props.onKeyPress()
+          }
+         
+        }
+    }
+    
     return (
         <input 
             
@@ -28,11 +39,14 @@ const Input = React.forwardRef((props, ref) => {
             value={props.value} 
             // onChange={handleChange}
             onChange={(e) => props.handleTaskInputChange(e.target.value)} 
-            placeholder={"add task here"} />
+            onKeyPress={handleKeyPress}
+            placeholder={"add task here"} 
+
+        />
     )
 })
 
-export default React.memo(Input)
+export default Input
 
 // const Input = (props) => {
 //     const [val, setVal] = useState("")
@@ -43,7 +57,8 @@ export default React.memo(Input)
 //     // }
 
 //     return (
-//         <input 
+//         <input
+//             ref={props.ref} 
 //             className="inp" 
 //             aria-label="cost-input" 
 //             data-testid="name"

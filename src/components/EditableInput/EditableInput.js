@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import "./EditableInput.scss"
 
 const EditableInput = ({
+	childRef,
     text,
     type,
     placeholder,
@@ -16,6 +17,13 @@ const EditableInput = ({
 	const handleKeyDown = (event, type) => {
 		// Handle when key is pressed
 	};
+
+	useEffect(() => {
+		
+		if (childRef && childRef.current && isEditing === true) {
+		  childRef.current.focus();
+		}
+	}, [isEditing, childRef]);
 
   
 

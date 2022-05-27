@@ -36,23 +36,17 @@ describe("testing <CardList /> component", () => {
       
       const inputElement = doc.getByTestId('name');
         
-      const button =  doc.getByTestId('icon-button');
-      //doc.getByTestId('icon-button');
-     
-
-     
-      // const todoCountElement = doc.getByTestId('todoCount');
-    
-      // // Create the todo.
-      fireEvent.change(inputElement, { target: { value: 'Feed my dog.' } });
-      fireEvent.click(button);
-    
-      const tasks = screen.findAllByText(/task /);
-      const todoNameElement = todo.firstChild;
+    //   const button =  doc.getByTestId('icon-button');
       
-        // Wait for page to update with query text
-        // const items = await screen.findAllByText(/Item #[0-9]: /)
-        // expect(items).toHaveLength(10)
+    
+      
+    //   fireEvent.change(inputElement, { target: { value: 'Feed my dog.' } });
+    //   fireEvent.click(button);
+    
+    //   const tasks = screen.findAllByText(/task /);
+    //   const todoNameElement = todo.firstChild;
+      
+       
     })
 
     

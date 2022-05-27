@@ -15,11 +15,14 @@ export default function CardList({
     delteTaskToCard,
     editTaskToCard,
     dragAndDropTask,
-    editLableChange
+    editLableChange,
+    editTask
 }) {
     
     const [val, setVal] = useState("");    
     const [dragCard, setDragCard] = useState("");
+
+    
 
     const handleDrag = (ev, card) => {
         ev.dataTransfer.setData("dragCardId",card.id);
@@ -63,6 +66,7 @@ export default function CardList({
                     <Input 
                         value={card.label}
                         handleTaskInputChange={(val) => handleTitleChange(val, card)}
+                       
                     />
                 </EditableInput>
                 
@@ -79,6 +83,7 @@ export default function CardList({
                         //dragAndDropTask={(dragItem, dragOverItem, task) => dragAndDropTask(dragItem, dragOverItem, card)}
                         handleDrag={(e) => handleDrag(e, card)}
                         handleDrop={(e) => handleDrop(e, card, task)}
+                        editTask={editTask}
                        
                     />;
                 })}
@@ -88,6 +93,7 @@ export default function CardList({
                     value={val}
                     handleTaskInputChange={(val) => handleChange(val)}
                     key={cardId}
+                    onKeyPress={() => handleAddTaskToCard(val, card)}
                 />
                 <IconButton
                     icon={"plus"}
