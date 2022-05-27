@@ -44,16 +44,16 @@ const IconButton = (props) => {
     }
 
     return (
-        <div data-testid="icon-button">
+        <button data-testid="icon-button" disabled={props.disabled}  onClick={handleClick} className="icon-button-img" >
         <img 
             className="image-button" 
             src={data} 
             alt={props.icon} 
-            onClick={handleClick} 
-            aria-label="cost-icon-button" 
            
+            aria-label="cost-icon-button" 
+            aria-disabled={true}
             />
-        </div>
+        </button>
     )
 }
 

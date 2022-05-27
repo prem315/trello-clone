@@ -4,6 +4,7 @@ import Input from "../Input/input";
 import IconButton from "../IconButton/IconButton";
 import EditableInput from "../EditableInput/EditableInput";
 import "./CardList.scss";
+import Button from "../Button/Button";
 
 export default function CardList({
     card,
@@ -16,7 +17,8 @@ export default function CardList({
     editTaskToCard,
     dragAndDropTask,
     editLableChange,
-    editTask
+    editTask,
+    deleteCardList
 }) {
     
     const [val, setVal] = useState("");    
@@ -99,7 +101,16 @@ export default function CardList({
                     icon={"plus"}
                     handleClick={() => handleAddTaskToCard(val, card)}
                     key={cardId}
+                    disabled={val === "" ? true : false}
                 />
+            </div>
+
+            <div className="delete-btn-container">
+                <Button 
+                    type="delte"
+                    handleClick={() => deleteCardList(card)} 
+                    
+                >Delete</Button>
             </div>
         </div>
     );

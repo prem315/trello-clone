@@ -7,6 +7,7 @@ import "./Card.scss"
 export default function Card({task, editTaskToCard, delteTaskToCard, dragAndDropTask, index, handleDrag, handleDrop, editTask}) {
     const [name, setName] = useState("")
     const inputRef = useRef();
+    // const [focus, seFocus] = useRef(false)
     
     const handleChange = (val) => {
         
@@ -31,17 +32,10 @@ export default function Card({task, editTaskToCard, delteTaskToCard, dragAndDrop
                 placeholder="Write a task name"
                 type="input"
                 childRef={inputRef}
-                // data-testid="card" 
-                // // className="card" 
-                // draggable={true}
-                // onDragOver={(ev) => ev.preventDefault()}
-                // onDragStart={handleDrag}
-                // onDrop={handleDrop}
-                // id={index}
-                // key={task.id} 
+               
             >
                 <Input 
-                    // ref={inputRef}
+                    
                     ref={inputRef}
                     value={task.task}
                     handleTaskInputChange={(e) => handleChange(e, task)}
@@ -50,8 +44,8 @@ export default function Card({task, editTaskToCard, delteTaskToCard, dragAndDrop
 
             </EditableInput>
             <div className="buttons">
-                <IconButton icon={"pencil"} handleClick={() => editTask(task)} />
-                <IconButton icon={"clear"} handleClick={() => delteTaskToCard(task)} />
+                <IconButton icon={"pencil"} handleClick={() => editTask(task)} disabled={false} />
+                <IconButton icon={"clear"} handleClick={() => delteTaskToCard(task)} disabled={false} />
             </div> 
         </div>   
     )

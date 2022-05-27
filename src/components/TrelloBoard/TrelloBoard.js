@@ -22,22 +22,24 @@ class TrelloBoard extends React.Component {
             currentCardId: null,
             inputVisible: false,
             label: "",
-            
+            isFocus: false
         }
 
-        this.inputRef = React.createRef()
-        
+        this.inputRef = React.createRef(null);    
     }
 
+    
+
     componentDidMount() {
-        console.log(this.inputRef)
-        //this.inputRef.current.focus()
+        
+        // this.inputRef.current.focus();
     }
 
     addCardList = () => {
-        this.inputRef.current.focus()
+       
         this.setState({
-            inputVisible: true
+            inputVisible: true,
+            isFocus: true
             //list: [...this.state.list, {id: uuidv4(), label: "", tasks: []}]
         })
     }
@@ -208,7 +210,8 @@ class TrelloBoard extends React.Component {
         this.setState({
 
             list: [...list, {id: uuidv4(), label: label, tasks: []}],
-            inputVisible: false
+            inputVisible: false,
+            label: ""
         })
     }
 
@@ -217,11 +220,19 @@ class TrelloBoard extends React.Component {
         console.log("clicked")
     }
 
-   
+    deleteCardList = (cardList) => {
+        console.log("deleting", cardList)
+        const { list } = this.state;
+        this.setState({
+            list: list.filter((listItem) => {
+                return listItem.id !== cardList.id
+            })
+        })
+    }
 
 
     render() {
-        const { list, taskInput, inputVisible } = this.state
+        const { list, taskInput, inputVisible, label } = this.state
         return (
             <div className="trelloBoard" data-testid="trello-board">
                 <div className="cardListContainer">
@@ -239,6 +250,7 @@ class TrelloBoard extends React.Component {
                                     editTask={this.editTask}
                                     dragAndDropTask={this.dragAndDropTask}
                                     editLableChange={this.editLableChange}
+                                    deleteCardList={this.deleteCardList}
                                     key={data.id}
                                 />
                             )
@@ -247,15 +259,22 @@ class TrelloBoard extends React.Component {
                     {
                         inputVisible === true ? 
                         <div className="addcardList">
-                            <Input 
+                            <Input
+                                ref={this.inputRef} 
                                 handleTaskInputChange={this.handleInputChange} 
                                 onKeyPress={this.addListToCardList}
-                                ref={this.inputRef}
+                                isFocus={this.state.isFocus}
                             />
-                            <Button handleClick={this.addListToCardList}>Add</Button>
+                            <Button type={"add-button"} 
+                                handleClick={this.addListToCardList} 
+                                disabled={label === "" ? true : false}
+                                />
                         </div> 
                         : 
-                        <Button handleClick={this.addCardList} />
+                        <Button 
+                            handleClick={this.addCardList} 
+                            type={"add-button"}    
+                        />
                     }
                     
                 </div>

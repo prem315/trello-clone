@@ -1,38 +1,17 @@
 import React, { useState } from "react"
 import "./Button.scss"
 
-// const Button = React.forwardRef(({ref, ...props}) => {
-
-//     // const [activeTab, setActiveTab] = useState(children[0].props.label);
-
-//     const handleClick = () => {
-//         // e.preventDefault();
-//         // setActiveTab(clickedTab)
-//         props.handleClick()
-//     }
-
-//     return (
-//         <button className="button" onClick={handleClick}>
-//             +
-//         </button>
-//     )
-// })
-
-// export default Button
-
 const Button = (props) => {
-
-    // const [activeTab, setActiveTab] = useState(children[0].props.label);
-
     const handleClick = () => {
-        // e.preventDefault();
-        // setActiveTab(clickedTab)
         props.handleClick()
     }
 
+    const extraClass = props.type === "add-button" ? "button" : "delete-button"  
     return (
-        <button className="button" onClick={handleClick}>
-            +
+        <button className={extraClass} onClick={handleClick} disabled={props.disabled}>
+           {props.type === "add-button" ? "+" : null } 
+           {props.children}
+            {/* {props.type === "add-button" ? "+" : "delete" } */}
         </button>
     )
 }
