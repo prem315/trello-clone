@@ -5,7 +5,7 @@ export const throttle = (callback, delay) => {
       let now = new Date().getTime();
   
       if(now - last < delay ) {
-        //console.log("here")
+       
         return
       }
   

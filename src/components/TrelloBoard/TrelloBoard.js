@@ -68,7 +68,7 @@ class TrelloBoard extends React.Component {
     }
 
     delteTaskToCard = (selectedCard, selectedTask) => {
-        // console.log("delete", card, task)
+       
         const { list } = this.state;
         this.setState({
             list: list.map((card) => {
@@ -87,7 +87,7 @@ class TrelloBoard extends React.Component {
     }
 
     editTaskToCard = (val, selectedCard, selectedTask) => {
-        // console.log("editing", val, card, task)
+        
        
         const { list } = this.state;
         this.setState({
@@ -217,11 +217,11 @@ class TrelloBoard extends React.Component {
 
 
     editTask = () => {
-        console.log("clicked")
+       
     }
 
     deleteCardList = (cardList) => {
-        console.log("deleting", cardList)
+       
         const { list } = this.state;
         this.setState({
             list: list.filter((listItem) => {

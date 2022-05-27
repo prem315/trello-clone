@@ -52,7 +52,7 @@ export default function CardList({
     }
 
     const handleTitleChange = (val, card) => {
-        // console.log(e.target.value)
+        
         editLableChange(val, card)
     }
 
