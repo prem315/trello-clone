@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "./EditableInput.scss"
 
 const EditableInput = ({
@@ -9,16 +9,19 @@ const EditableInput = ({
     ...props
 }) => {
   
-  const [isEditing, setEditing] = useState(false);
+	const [isEditing, setEditing] = useState(false);
+	
 
 
-  const handleKeyDown = (event, type) => {
-    // Handle when key is pressed
-  };
+	const handleKeyDown = (event, type) => {
+		// Handle when key is pressed
+	};
+
+  
 
 
     return (
-        <section {...props}>
+        <section {...props} data-testid="editable-input">
 			{isEditing ? (
 				<div
 					onBlur={() => setEditing(false)}

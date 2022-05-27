@@ -8,10 +8,10 @@ import "./CardList.scss";
 export default function CardList({
     card,
     addTaskToCard,
-    handleTaskInputChange,
-    taskInput,
+    // handleTaskInputChange,
+    // taskInput,
     cardId,
-    key,
+    // key,
     delteTaskToCard,
     editTaskToCard,
     dragAndDropTask,
@@ -52,7 +52,7 @@ export default function CardList({
     }
 
     return (
-        <div className="cardList" key={cardId} >
+        <div className="cardList" key={cardId} data-testid="cardList" >
             <div className="cardLable">
                 <EditableInput
                     text={card.label}
@@ -74,7 +74,8 @@ export default function CardList({
                         task={task} 
                         key={task.id} 
                         delteTaskToCard={() => delteTaskFromCard(card, task)} 
-                        editTaskToCard={(e) => editTaskToCard(e, card, task)}
+                        // editTaskToCard={(e) => editTaskToCard(e, card, task)}
+                        editTaskToCard={(val, task) => editTaskToCard(val, card, task)}
                         //dragAndDropTask={(dragItem, dragOverItem, task) => dragAndDropTask(dragItem, dragOverItem, card)}
                         handleDrag={(e) => handleDrag(e, card)}
                         handleDrop={(e) => handleDrop(e, card, task)}

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react"
+import React, { useState, useRef, useEffect } from "react"
 import IconButton from "../IconButton/IconButton"
 import EditableInput from "../EditableInput/EditableInput"
 import Input from "../Input/input";
@@ -11,17 +11,67 @@ export default function Card({task, editTaskToCard, delteTaskToCard, dragAndDrop
     //     delteTaskToCard(task)
     // }
     const [name, setName] = useState("")
-    
+    // const inputRef = useRef(null);
+
 
     const handleChange = (val) => {
-        console.log(val)
+        
         editTaskToCard(val, task)
         setName(val)
     }
+
+    
+    // useEffect(() => {
+       
+    //     inputRef.current.focus();
+    // }, []);
+
+   
     
     return(
-            <>
-            <div 
+            <div className="card-block"
+                data-testid="card" 
+                    // className="card" 
+                    draggable={true}
+                    onDragOver={(ev) => ev.preventDefault()}
+                    onDragStart={handleDrag}
+                    onDrop={handleDrop}
+                    id={index}
+                    key={task.id} 
+            >
+            
+                <EditableInput 
+                    text={task.task}
+                    placeholder="Write a task name"
+                    type="input"
+                    // data-testid="card" 
+                    // // className="card" 
+                    // draggable={true}
+                    // onDragOver={(ev) => ev.preventDefault()}
+                    // onDragStart={handleDrag}
+                    // onDrop={handleDrop}
+                    // id={index}
+                    // key={task.id} 
+                >
+                    <Input 
+                        // ref={inputRef}
+                        value={task.task}
+                        handleTaskInputChange={(e) => handleChange(e, task)}
+                    />
+
+                </EditableInput>
+                <div className="buttons">
+                    <IconButton icon={"pencil"} handleClick={editTaskToCard} />
+                    <IconButton icon={"clear"} handleClick={() => delteTaskToCard(task)} />
+                </div> 
+            </div>
+            
+            
+    )
+}
+
+{/* <div
+                data-testid="card" 
                 className="card" 
                 draggable={true}
                 onDragOver={(ev) => ev.preventDefault()}
@@ -32,32 +82,7 @@ export default function Card({task, editTaskToCard, delteTaskToCard, dragAndDrop
                 >
                 <div>{task.task}</div>
                 
-                <div className="buttons">
+                {/* <div className="buttons">
                     <IconButton icon={"pencil"} handleClick={editTaskToCard} />
                     <IconButton icon={"clear"} handleClick={() => delteTaskToCard(task)} />
-                </div>
-            </div>
-            <EditableInput 
-                    text={task.task}
-                    placeholder="Write a task name"
-                    type="input"
-                >
-                    <Input 
-                        value={task.task}
-                        handleTaskInputChange={(e) => handleChange(e, task)}
-                    />
-                </EditableInput>
-            </>
-            /* <EditableInput 
-                text={task.task}
-                placeholder="Write a task name"
-                type="input"
-            >
-                <Input 
-                    value={task.task}
-                    handleTaskInputChange={(e) => handleChange(e, task)}
-                />
-            </EditableInput> */
-            
-    )
-}
+                </div>  </div> */}

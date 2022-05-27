@@ -12,3 +12,23 @@
     padding: 10px 10px;
     align-items: center;
 }
+
+.card-block {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    margin: 0 auto 10px;
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 1px 1px 1px rgb(0 0 0 / 30%);
+    transition: 0.15s;
+    cursor: pointer;
+    
+    padding: 10px 10px;
+    align-items: center;
+
+    .buttons {
+        display: flex;
+    }
+}

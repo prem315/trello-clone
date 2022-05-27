@@ -2,6 +2,7 @@
 import Button from "../Button/Button"
 import "./TrelloBoard.scss"
 import CardList from "../CardList/CardList"
+import Input from "../Input/input"
 import { throttle } from "../../utils/utils"
 import { v4 as uuidv4 } from 'uuid';
 
@@ -18,13 +19,18 @@ class TrelloBoard extends React.Component {
                 {id: uuidv4(), label: "Doing" , tasks: [{id: uuidv4(), task: "task 3"}, {id: uuidv4(), task: "task 4"}]}
             ],
             taskInput: "",
-            currentCardId: null
+            currentCardId: null,
+            inputVisible: false,
+            label: ""
         }
         
     }
 
-    addCard = () => {
-
+    addCardList = () => {
+        this.setState({
+            inputVisible: true
+            //list: [...this.state.list, {id: uuidv4(), label: "", tasks: []}]
+        })
     }
 
     addTaskToCard = (val, selectedCard) => {
@@ -79,7 +85,7 @@ class TrelloBoard extends React.Component {
                     return {
                         ...card,
                         tasks: card.tasks.map((currentTask) => {
-                            if(currentTask.id === selectedTask.task) {
+                            if(currentTask.id === selectedTask.id) {
                                 return {
                                     ...currentTask,
                                     task: val
@@ -185,10 +191,27 @@ class TrelloBoard extends React.Component {
         })
     }
 
+    handleInputChange = (val) => {
+        console.log(val)
+        this.setState({
+            label: val
+        })
+    }
+
+    addListToCardList = () => {
+        const {label, list} = this.state
+        console.log(label)
+        this.setState({
+
+            list: [...list, {id: uuidv4(), label: label, tasks: []}],
+            inputVisible: false
+        })
+    }
+
     render() {
-        const { list, taskInput } = this.state
+        const { list, taskInput, inputVisible } = this.state
         return (
-            <div className="trelloBoard">
+            <div className="trelloBoard" data-testid="trello-board">
                 <div className="cardListContainer">
                     {
                         list.map((data, index) => {
@@ -208,8 +231,18 @@ class TrelloBoard extends React.Component {
                             )
                         })
                     }
-                    <Button handleClick={this.addCard} />
+                    {
+                        inputVisible === true ? 
+                        <div>
+                            <Input handleTaskInputChange={this.handleInputChange} />
+                            <Button handleClick={this.addListToCardList}>Add</Button>
+                        </div> 
+                        : 
+                        <Button handleClick={this.addCardList} />
+                    }
+                    
                 </div>
+
             
             </div>
         )
