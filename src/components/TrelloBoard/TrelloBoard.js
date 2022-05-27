@@ -1,289 +1,245 @@
 // import React from "react"
-import Button from "../Button/Button"
-import "./TrelloBoard.scss"
-import CardList from "../CardList/CardList"
-import Input from "../Input/input"
-import { throttle } from "../../utils/utils"
-import { v4 as uuidv4 } from 'uuid';
+import Button from "../Button/Button";
+import "./TrelloBoard.scss";
+import CardList from "../CardList/CardList";
+import Input from "../Input/input";
+import { throttle } from "../../utils/utils";
+import { v4 as uuidv4 } from "uuid";
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef } from "react";
 
+const INITIAL_STATE = [
+	{
+		id: uuidv4(),
+		label: "Todo List",
+		tasks: [
+			{ id: uuidv4(), task: "task 1" },
+			{ id: uuidv4(), task: "task 2" },
+		],
+	},
+	{
+		id: uuidv4(),
+		label: "Doing",
+		tasks: [
+			{ id: uuidv4(), task: "task 3" },
+			{ id: uuidv4(), task: "task 4" },
+		],
+	},
+];
+const TrelloBoard = () => {
+	const [list, setList] = useState(INITIAL_STATE);
+	const [taskInput, setTaskInput] = useState("");
+	const [currentCardId, setCurrentCardId] = useState(null);
+	const [inputVisible, setInputVisible] = useState(false);
+	const [label, setLabel] = useState("");
+	const [isFocus, setIsFocus] = useState(false);
 
-class TrelloBoard extends React.Component {
+	const inputRef = useRef(null);
 
-    constructor(props) {
-        super(props)
-        this.state = {
-            list: [
-                {id: uuidv4(), label: "Todo List" , tasks: [{id: uuidv4(), task: "task 1"}, {id: uuidv4(), task: "task 2"}]},
-                {id: uuidv4(), label: "Doing" , tasks: [{id: uuidv4(), task: "task 3"}, {id: uuidv4(), task: "task 4"}]}
-            ],
-            taskInput: "",
-            currentCardId: null,
-            inputVisible: false,
-            label: "",
-            isFocus: false
-        }
+	const addCardList = () => {
+		setInputVisible(true);
+		setIsFocus(true);
+	};
 
-        this.inputRef = React.createRef(null);    
-    }
+	const addTaskToCard = (val, selectedCard) => {
+		const newList = list.map((card) => {
+			if (card.id === selectedCard.id) {
+				return {
+					...card,
+					tasks: [...card.tasks, { id: uuidv4(), task: val }],
+				};
+			} else {
+				return card;
+			}
+		});
+		setList(newList);
+		setTaskInput("");
+	};
 
-    
+	const delteTaskToCard = (selectedCard, selectedTask) => {
+		const newList = list.map((card) => {
+			if (card.id === selectedCard.id) {
+				return {
+					...card,
+					tasks: card.tasks.filter((task) => {
+						return task.id !== selectedTask.id;
+					}),
+				};
+			} else {
+				return card;
+			}
+		});
+		setList(newList);
+	};
 
-    componentDidMount() {
-        
-        // this.inputRef.current.focus();
-    }
+	const editTaskToCard = (val, selectedCard, selectedTask) => {
+		const newList = list.map((card) => {
+			if (card.id === selectedCard.id) {
+				return {
+					...card,
+					tasks: card.tasks.map((currentTask) => {
+						if (currentTask.id === selectedTask.id) {
+							return {
+								...currentTask,
+								task: val,
+							};
+						} else {
+							return currentTask;
+						}
+					}),
+				};
+			} else {
+				return card;
+			}
+		});
+		setList(newList);
+	};
 
-    addCardList = () => {
-       
-        this.setState({
-            inputVisible: true,
-            isFocus: true
-            //list: [...this.state.list, {id: uuidv4(), label: "", tasks: []}]
-        })
-    }
+	const handleTaskInputChange = (val, card) => {
+		setTaskInput(val);
+		setCurrentCardId(card.id);
+	};
 
-    addTaskToCard = (val, selectedCard) => {
-      
-        const { taskInput, currentCardId, list} = this.state;
-  
+	const dragAndDropTask = (
+		dragItem,
+		dragOverItem,
+		selectedCard,
+		selectedTask,
+		dragCardId
+	) => {
+		const copyListItems = [...list];
+		const selectedList = copyListItems.find((list) => {
+			return list.id === selectedCard.id;
+		}).tasks;
 
-        this.setState({
-            list: list.map((card) => {
-                if(card.id === selectedCard.id) {
-                    return {
-                        ...card,
-                        tasks: [...card.tasks, {id: uuidv4(), task:val }]
-                    }
-                } else {
-                    return card
-                }
-               
-            }),
-            taskInput : ""
-        })
+		if (dragCardId === selectedCard.id) {
+			const dragItemContent = selectedList[dragItem];
+			selectedList.splice(dragItem, 1);
+			selectedList.splice(dragOverItem, 0, dragItemContent);
 
-       
-    }
+			const newList = list.map((card) => {
+				if (card.id === selectedCard.id) {
+					return {
+						...card,
+						tasks: selectedList,
+					};
+				} else {
+					return card;
+				}
+			});
+			setList(newList);
+		} else {
+			// const selected
+			const selectedList = copyListItems.find((list) => {
+				return list.id === dragCardId;
+			}).tasks;
+			const dragItemContent = selectedList[dragItem];
+			selectedList.splice(dragItem, 1);
 
-    delteTaskToCard = (selectedCard, selectedTask) => {
-       
-        const { list } = this.state;
-        this.setState({
-            list: list.map((card) => {
-                if(card.id === selectedCard.id) {
-                    return {
-                        ...card,
-                        tasks: card.tasks.filter((task) => {
-                            return task.id !== selectedTask.id
-                        })
-                    } 
-                } else {
-                    return card
-                }
-            })
-        })
-    }
+			// remove from selectedlist
+			// drop list tasks
+			const dropListTasks = copyListItems.find((list) => {
+				return list.id === selectedCard.id;
+			}).tasks;
+			dropListTasks.splice(dragOverItem, 0, dragItemContent);
 
-    editTaskToCard = (val, selectedCard, selectedTask) => {
-        
-       
-        const { list } = this.state;
-        this.setState({
-            list: list.map((card) => {
-                if(card.id === selectedCard.id) {
-                    return {
-                        ...card,
-                        tasks: card.tasks.map((currentTask) => {
-                            if(currentTask.id === selectedTask.id) {
-                                return {
-                                    ...currentTask,
-                                    task: val
-                                }
-                            } else {
-                                return currentTask
-                            }
-                        })
-                    } 
-                } else {
-                    return card
-                }
-            })
-        })
-    }
+			const newList = list.map((card) => {
+				if (card.id === dragCardId) {
+					return {
+						...card,
+						tasks: selectedList,
+					};
+				} else if (card.id === selectedCard.id) {
+					return {
+						...card,
+						tasks: dropListTasks,
+					};
+				}
+			});
+			setList(newList);
+		}
+	};
 
-    handleTaskInputChange = (val, card) => {
-       
-        this.setState({
-            taskInput: val,
-            currentCardId: card.id
-        })
-    }
+	const editLableChange = (val, selectedCard) => {
+		const newList = list.map((card) => {
+			if (card.id === selectedCard.id) {
+				return {
+					...card,
+					label: val,
+				};
+			} else {
+				return card;
+			}
+		});
+		setList(newList);
+	};
 
-    dragAndDropTask = (dragItem, dragOverItem, selectedCard, selectedTask, dragCardId) => {
-       
-        const {list} = this.state 
-        const copyListItems = [...list];
-        const selectedList = copyListItems.find((list) => {
-            return list.id === selectedCard.id
-        }).tasks
-        
-        if(dragCardId === selectedCard.id) {
-            const dragItemContent = selectedList[dragItem];
-            selectedList.splice(dragItem, 1);
-            selectedList.splice(dragOverItem, 0, dragItemContent); 
-            
-            this.setState({
-                list: list.map((card) => {
-                    if(card.id === selectedCard.id) {
-                        return {
-                            ...card,
-                            tasks: selectedList
-                        }
-                    } else {
-                        return card
-                    }
-                })
-            })
-        } else {
-            
-           
-            // const selected
-            const selectedList = copyListItems.find((list) => {
-                return list.id === dragCardId
-            }).tasks
-            const dragItemContent = selectedList[dragItem];
-            selectedList.splice(dragItem, 1);
-           
-            // remove from selectedlist
-            // drop list tasks
-            const dropListTasks = copyListItems.find((list) => {
-                return list.id === selectedCard.id
-            }).tasks
-            dropListTasks.splice(dragOverItem, 0, dragItemContent)
+	const handleInputChange = (val) => {
+		setLabel(val);
+	};
 
-            this.setState({
-                list: list.map((card) => {
-                    if(card.id === dragCardId) {
-                        return {
-                            ...card,
-                            tasks: selectedList
-                        }
-                    } else if(card.id === selectedCard.id) {
-                        return {
-                            ...card,
-                            tasks: dropListTasks
-                        }
-                    }
-                })
-            })
-        }
-    }
+	const addListToCardList = () => {
+		const newList = [...list, { id: uuidv4(), label: label, tasks: [] }];
+		setList(newList);
+		setInputVisible(false);
+		setLabel("");
+	};
 
-    editLableChange = (val, selectedCard) => {
-        const { list } = this.state
-        this.setState({
-            list: list.map((card) => {
-                if(card.id === selectedCard.id) {
-                    return {
-                        ...card,
-                        label:val
-                    }
-                } else {
-                    return card
-                }
-            }),
-        })
-    }
+	const editTask = () => {};
 
-    handleInputChange = (val) => {
-        
-        this.setState({
-            label: val
-        })
-    }
+	const deleteCardList = (cardList) => {
+		const newList = list.filter((listItem) => {
+			return listItem.id !== cardList.id;
+		});
+		setList(newList);
+	};
 
-    addListToCardList = () => {
-        const {label, list} = this.state
-        
-        this.setState({
+	return (
+		<div className="trelloBoard" data-testid="trello-board">
+			<div className="cardListContainer">
+				{list.map((data) => {
+					return (
+						<CardList
+							card={data}
+							addTaskToCard={addTaskToCard}
+							handleTaskInputChange={handleTaskInputChange}
+							taskInput={taskInput}
+							delteTaskToCard={delteTaskToCard}
+							editTaskToCard={editTaskToCard}
+							editTask={editTask}
+							dragAndDropTask={dragAndDropTask}
+							editLableChange={editLableChange}
+							deleteCardList={deleteCardList}
+							key={data.id}
+						/>
+					);
+				})}
+				{inputVisible === true ? (
+					<div className="addcardList">
+						<Input
+							data-testid="task-entry"
+							ref={inputRef}
+							handleTaskInputChange={handleInputChange}
+							onKeyPress={addListToCardList}
+							isFocus={isFocus}
+						/>
+						<Button
+							data-testid="addlist-button"
+							type={"add-button"}
+							handleClick={addListToCardList}
+							disabled={label === "" ? true : false}
+						/>
+					</div>
+				) : (
+					<Button
+						handleClick={addCardList}
+						type={"add-button"}
+						data-testid="addcardlist-button"
+					/>
+				)}
+			</div>
+		</div>
+	);
+};
 
-            list: [...list, {id: uuidv4(), label: label, tasks: []}],
-            inputVisible: false,
-            label: ""
-        })
-    }
-
-
-    editTask = () => {
-       
-    }
-
-    deleteCardList = (cardList) => {
-       
-        const { list } = this.state;
-        this.setState({
-            list: list.filter((listItem) => {
-                return listItem.id !== cardList.id
-            })
-        })
-    }
-
-
-    render() {
-        const { list, taskInput, inputVisible, label } = this.state
-        return (
-            <div className="trelloBoard" data-testid="trello-board">
-                <div className="cardListContainer">
-                    {
-                        list.map((data, index) => {
-                        
-                            return(
-                                <CardList 
-                                    card={data}
-                                    addTaskToCard={this.addTaskToCard}
-                                    handleTaskInputChange={this.handleTaskInputChange} 
-                                    taskInput={taskInput}
-                                    delteTaskToCard={this.delteTaskToCard}
-                                    editTaskToCard={this.editTaskToCard}
-                                    editTask={this.editTask}
-                                    dragAndDropTask={this.dragAndDropTask}
-                                    editLableChange={this.editLableChange}
-                                    deleteCardList={this.deleteCardList}
-                                    key={data.id}
-                                />
-                            )
-                        })
-                    }
-                    {
-                        inputVisible === true ? 
-                        <div className="addcardList">
-                            <Input
-                                ref={this.inputRef} 
-                                handleTaskInputChange={this.handleInputChange} 
-                                onKeyPress={this.addListToCardList}
-                                isFocus={this.state.isFocus}
-                            />
-                            <Button type={"add-button"} 
-                                handleClick={this.addListToCardList} 
-                                disabled={label === "" ? true : false}
-                                />
-                        </div> 
-                        : 
-                        <Button 
-                            handleClick={this.addCardList} 
-                            type={"add-button"}    
-                        />
-                    }
-                    
-                </div>
-
-            
-            </div>
-        )
-    }
-}
-
-export default TrelloBoard
-
+export default TrelloBoard;
