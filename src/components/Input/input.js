@@ -1,22 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./input.scss";
 
-// const Input = React.forwardRef(({ref, ...props}) => {
-
-//     const [val, setVal] = useState("")
-
-//     const handleChange = (e) => {
-//         props.handleTaskInputChange(e.target.value)
-//         // setVal(e.target.value)
-//     }
-
-//     return (
-//         <input className="inp" value={props.value} onChange={handleChange} placeholder={"add task here"} />
-//     )
-// })
-
-// export default React.memo(Input)
-
 const Input = React.forwardRef((props, ref) => {
 	const handleKeyPress = (event) => {
 		if (event.key === "Enter") {

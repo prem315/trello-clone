@@ -101,7 +101,11 @@ export default function CardList({
 			</div>
 
 			<div className="delete-btn-container">
-				<Button type="delte" handleClick={() => deleteCardList(card)}>
+				<Button 
+					type="delte" 
+					handleClick={() => deleteCardList(card)}
+					data-testid={`${card.label}-delete-button`}
+				>
 					Delete
 				</Button>
 			</div>
