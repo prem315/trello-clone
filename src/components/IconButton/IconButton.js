@@ -45,7 +45,7 @@ const IconButton = (props) => {
     }
 
     return (
-        <button data-testid="icon-button" disabled={props.disabled}  onClick={handleClick} className="icon-button-img" >
+        <button {...props} disabled={props.disabled}  onClick={handleClick} className="icon-button-img" >
         <img 
             className="image-button" 
             src={data} 

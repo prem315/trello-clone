@@ -53,22 +53,22 @@ export default function CardList({
 	};
 
 	return (
-		<div className="cardList" key={cardId} data-testid={card.label}>
+		<div className="cardList" key={cardId} data-testid={card?.label} >
 			<div className="cardLable">
 				<EditableInput
-					text={card.label}
+					text={card?.label}
 					placeholder="Write a task name"
 					type="input"
 				>
 					{/* {card.label} */}
 					<Input
-						value={card.label}
+						value={card?.label}
 						handleTaskInputChange={(val) => handleTitleChange(val, card)}
 					/>
 				</EditableInput>
 			</div>
 			<div className="cardContainer">
-				{card.tasks.map((task, index) => {
+				{card?.tasks.map((task, index) => {
 					return (
 						<Card
 							index={index}
@@ -91,8 +91,10 @@ export default function CardList({
 					handleTaskInputChange={(val) => handleChange(val)}
 					key={cardId}
 					onKeyPress={() => handleAddTaskToCard(val, card)}
+					data-testid={`add-card-input`}
 				/>
 				<IconButton
+					data-testid={`add-card-button`}
 					icon={"plus"}
 					handleClick={() => handleAddTaskToCard(val, card)}
 					key={cardId}
@@ -104,7 +106,7 @@ export default function CardList({
 				<Button 
 					type="delte" 
 					handleClick={() => deleteCardList(card)}
-					data-testid={`${card.label}-delete-button`}
+					data-testid={`${card?.label}-delete-button`}
 				>
 					Delete
 				</Button>
