@@ -6,7 +6,9 @@ const EditableInput = ({
     text,
     type,
     placeholder,
-    children,
+	children,
+	isEdit,
+	handleSetEdit,
     ...props
 }) => {
   
@@ -25,6 +27,22 @@ const EditableInput = ({
 		}
 	}, [isEditing, childRef]);
 
+	useEffect(() => {
+        if (isEdit) {
+            setEditing(true)
+        }
+    }, [isEdit]);
+
+
+
+    const handleBlur = () => {
+
+        setEditing(false)
+
+        handleSetEdit(false)
+
+    }
+
   
 
 
@@ -32,7 +50,7 @@ const EditableInput = ({
         <section {...props} data-testid="editable-input">
 			{isEditing ? (
 				<div
-					onBlur={() => setEditing(false)}
+					onBlur={handleBlur}
 					onKeyDown={e => handleKeyDown(e, type)}
 				>
 					{children}

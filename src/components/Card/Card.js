@@ -22,6 +22,10 @@ export default function Card({task, editTaskToCard, delteTaskToCard, dragAndDrop
         setFocus(true)
     }
 
+    const  handleSetEdit = (isEdit) => {
+        setFocus(isEdit)
+    }
+
     return(
         <div className="card-block"
             data-testid="card" 
@@ -39,7 +43,8 @@ export default function Card({task, editTaskToCard, delteTaskToCard, dragAndDrop
                 placeholder="Write a task name"
                 type="input"
                 childRef={inputRef}
-               
+                isEdit={focus}
+                handleSetEdit={handleSetEdit}
             >
                 <Input 
                     isFocus={focus}
