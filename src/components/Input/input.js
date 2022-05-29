@@ -30,6 +30,7 @@ const Input = React.forwardRef((props, ref) => {
 			onChange={(e) => props.handleTaskInputChange(e.target.value)}
 			onKeyPress={handleKeyPress}
 			placeholder={"add task here"}
+			autoFocus
 		/>
 	);
 });
