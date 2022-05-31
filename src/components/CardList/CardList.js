@@ -20,6 +20,9 @@ export default function CardList({
 	editTask,
 	deleteCardList,
 }) {
+	useEffect(() => {
+		console.log("change in card", card);
+	}, [card]);
 	const [val, setVal] = useState("");
 	const [dragCard, setDragCard] = useState("");
 
@@ -53,7 +56,7 @@ export default function CardList({
 	};
 
 	return (
-		<div className="cardList" key={cardId} data-testid={card?.label} >
+		<div className="cardList" key={cardId} data-testid={card?.label}>
 			<div className="cardLable">
 				<EditableInput
 					text={card?.label}
@@ -103,8 +106,8 @@ export default function CardList({
 			</div>
 
 			<div className="delete-btn-container">
-				<Button 
-					type="delte" 
+				<Button
+					type="delte"
 					handleClick={() => deleteCardList(card)}
 					data-testid={`${card?.label}-delete-button`}
 				>
